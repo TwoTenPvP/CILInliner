@@ -212,7 +212,7 @@ namespace CILInliner
                                                 for (int i = 0; i < targetMethod.Body.Instructions.Count; i++)
                                                 {
                                                     // Construct a convered instruction. Compensates for stack offsets etc
-                                                    Instruction targetInstruction = OpCodesHelper.ConvertInstruction(targetMethod.Body.Instructions[i], processor, nextInstruction, method.Body.Variables.ToList(), originalMethodVariables, argumentVariableOffset, targetMethod.HasThis);
+                                                    Instruction targetInstruction = OpCodesHelper.ConvertInstruction(targetMethod.Body.Instructions[i], processor, nextInstruction, method.Body.Variables, originalMethodVariables, argumentVariableOffset, targetMethod.HasThis);
 
                                                     if (targetMethod.Body.Instructions[i] != targetInstruction)
                                                     {

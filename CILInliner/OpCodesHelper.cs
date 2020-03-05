@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Mono.Collections.Generic;
 
 namespace CILInliner
 {
     internal static class OpCodesHelper
     {
-        internal static Instruction ConvertInstruction(Instruction targetInstruction, ILProcessor processor, Instruction lastInstruction, List<VariableDefinition> allVars, int varOffset, int parameterVarOffset, bool isInstance)
+        internal static Instruction ConvertInstruction(Instruction targetInstruction, ILProcessor processor, Instruction lastInstruction, Collection<VariableDefinition> allVars, int varOffset, int parameterVarOffset, bool isInstance)
         {
             // If the opcode is a return
             if (targetInstruction.OpCode == OpCodes.Ret)
@@ -23,7 +24,7 @@ namespace CILInliner
 
         // Shrinks and applies offsets to variable loads and sets.
         // Also convert argument loads and sets to optimized variable loads and sets
-        private static Instruction CreateShortestInstruction(Instruction instruction, List<VariableDefinition> variables, int targetVarOffset, int parameterVarOffset, ILProcessor processor, bool isInstance)
+        private static Instruction CreateShortestInstruction(Instruction instruction, Collection<VariableDefinition> variables, int targetVarOffset, int parameterVarOffset, ILProcessor processor, bool isInstance)
         {
             OpCode baseCode = OpCodes.Nop;
             int originalVar = -1;
