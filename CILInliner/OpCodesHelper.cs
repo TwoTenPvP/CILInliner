@@ -14,7 +14,7 @@ namespace CILInliner
             if (targetInstruction.OpCode == OpCodes.Ret)
             {
                 // Replace with branch to final
-                if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing ret with br to end of inline instruction");
+                if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing ret with br to end of inline instruction.");
                 return processor.Create(OpCodes.Br, lastInstruction);
             }
 
@@ -76,34 +76,34 @@ namespace CILInliner
             {
                 if (targetVar == 0)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc_0 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc_0 in target.");
                     return processor.Create(OpCodes.Ldloc_0);
                 }
                 if (targetVar == 1)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc_1 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc_1 in target.");
                     return processor.Create(OpCodes.Ldloc_1);
                 }
 
                 if (targetVar == 2)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc_2 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc_2 in target.");
                     return processor.Create(OpCodes.Ldloc_2);
                 }
 
                 if (targetVar == 3)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc_3 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc_3 in target.");
                     return processor.Create(OpCodes.Ldloc_3);
                 }
 
                 if (targetVar <= byte.MaxValue)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc_S." + targetVar + " in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc_S." + targetVar + " in target.");
                     return processor.Create(OpCodes.Ldloc_S, variables[targetVar]);
                 }
 
-                if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc." + targetVar + " in target");
+                if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc." + targetVar + " in target.");
                 return processor.Create(OpCodes.Ldloc, variables[targetVar]);
             }
 
@@ -153,35 +153,35 @@ namespace CILInliner
             {
                 if (targetVar == 0)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc_0 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc_0 in target.");
                     return processor.Create(OpCodes.Stloc_0);
                 }
 
                 if (targetVar == 1)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc_1 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc_1 in target.");
                     return processor.Create(OpCodes.Stloc_1);
                 }
 
                 if (targetVar == 2)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc_2 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc_2 in target.");
                     return processor.Create(OpCodes.Stloc_2);
                 }
 
                 if (targetVar == 3)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc_3 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc_3 in target.");
                     return processor.Create(OpCodes.Stloc_3);
                 }
 
                 if (targetVar <= byte.MaxValue)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc_S." + targetVar + " in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc_S." + targetVar + " in target.");
                     return processor.Create(OpCodes.Stloc_S, variables[targetVar]);
                 }
 
-                if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldloc_" + originalVar + " with Ldloc." + targetVar + " in target");
+                if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldloc_" + originalVar + " with Ldloc." + targetVar + " in target.");
                 return processor.Create(OpCodes.Stloc, variables[targetVar]);
             }
 
@@ -258,35 +258,35 @@ namespace CILInliner
             {
                 if (targetVar == 0)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldarg_" + originalVar + " with Ldloc_0 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldarg_" + originalVar + " with Ldloc_0 in target.");
                     return processor.Create(OpCodes.Ldloc_0);
                 }
 
                 if (targetVar == 1)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldarg_" + originalVar + " with Ldloc_1 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldarg_" + originalVar + " with Ldloc_1 in target.");
                     return processor.Create(OpCodes.Ldloc_1);
                 }
 
                 if (targetVar == 2)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldarg_" + originalVar + " with Ldloc_2 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldarg_" + originalVar + " with Ldloc_2 in target.");
                     return processor.Create(OpCodes.Ldloc_2);
                 }
 
                 if (targetVar == 3)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldarg_" + originalVar + " with Ldloc_3 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldarg_" + originalVar + " with Ldloc_3 in target.");
                     return processor.Create(OpCodes.Ldloc_3);
                 }
 
                 if (targetVar <= byte.MaxValue)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldarg_" + originalVar + " with Ldloc_S." + targetVar + " in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldarg_" + originalVar + " with Ldloc_S." + targetVar + " in target.");
                     return processor.Create(OpCodes.Ldloc_S, variables[targetVar]);
                 }
 
-                if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Ldarg_" + originalVar + " with Ldloc." + targetVar + " in target");
+                if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Ldarg_" + originalVar + " with Ldloc." + targetVar + " in target.");
                 return processor.Create(OpCodes.Ldloc, variables[targetVar]);
             }
 
@@ -326,35 +326,35 @@ namespace CILInliner
             {
                 if (targetVar == 0)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Starg_" + originalVar + " with Stloc_0 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Starg_" + originalVar + " with Stloc_0 in target.");
                     return processor.Create(OpCodes.Stloc_0);
                 }
 
                 if (targetVar == 1)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Starg_" + originalVar + " with Stloc_1 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Starg_" + originalVar + " with Stloc_1 in target.");
                     return processor.Create(OpCodes.Stloc_1);
                 }
 
                 if (targetVar == 2)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Starg_" + originalVar + " with Stloc_2 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Starg_" + originalVar + " with Stloc_2 in target.");
                     return processor.Create(OpCodes.Stloc_2);
                 }
 
                 if (targetVar == 3)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Starg_" + originalVar + " with Stloc_3 in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Starg_" + originalVar + " with Stloc_3 in target.");
                     return processor.Create(OpCodes.Stloc_3);
                 }
 
                 if (targetVar <= byte.MaxValue)
                 {
-                    if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Starg_" + originalVar + " with Stloc_S." + targetVar + " in target");
+                    if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Starg_" + originalVar + " with Stloc_S." + targetVar + " in target.");
                     return processor.Create(OpCodes.Stloc_S, variables[targetVar]);
                 }
 
-                if (Program.LoadedOptions.Verbose) Console.WriteLine("Replacing Starg_" + originalVar + " with Stloc." + targetVar + " in target");
+                if (Program.LoadedOptions.Verbose) Console.WriteLine("=>     Replacing Starg_" + originalVar + " with Stloc." + targetVar + " in target.");
                 return processor.Create(OpCodes.Stloc, variables[targetVar]);
             }
 

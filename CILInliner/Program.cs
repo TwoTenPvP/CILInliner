@@ -59,7 +59,7 @@ namespace CILInliner
                     {
                         if (!File.Exists(path))
                         {
-                            Console.WriteLine("Could not find assembly " + path);
+                            Console.WriteLine("Could not find assembly " + path + ".");
                             Environment.Exit(1);
                             return;
                         }
@@ -80,23 +80,23 @@ namespace CILInliner
 
                     ProcessAssemblies(assemblies);
 
-                    if (LoadedOptions.Verbose) Console.WriteLine("Processed all assemblies");
+                    if (LoadedOptions.Verbose) Console.WriteLine("Processed all assemblies.");
 
                     for (int i = 0; i < assemblies.Count; i++)
                     {
                         if (LoadedOptions.OverwriteAssemblies)
                         {
-                            if (LoadedOptions.Verbose) Console.WriteLine("Overwriting assembly at " + LoadedOptions.InputFiles.ElementAt(i));
+                            if (LoadedOptions.Verbose) Console.WriteLine("Overwriting assembly at " + LoadedOptions.InputFiles.ElementAt(i) + ".");
                             assemblies[i].Write(LoadedOptions.InputFiles.ElementAt(i));
                         }
                         else
                         {
-                            if (LoadedOptions.Verbose) Console.WriteLine("Saving assembly to " + Path.Combine(LoadedOptions.OutputFolder, Path.GetFileName(LoadedOptions.InputFiles.ElementAt(i))));
+                            if (LoadedOptions.Verbose) Console.WriteLine("Saving assembly to " + Path.Combine(LoadedOptions.OutputFolder, Path.GetFileName(LoadedOptions.InputFiles.ElementAt(i))) + ".");
                             assemblies[i].Write(Path.Combine(LoadedOptions.OutputFolder, Path.GetFileName(LoadedOptions.InputFiles.ElementAt(i))));
                         }
                     }
 
-                    Console.WriteLine("Done");
+                    Console.WriteLine("Done.");
                     Environment.Exit(0);
                 }
             });
@@ -129,6 +129,8 @@ namespace CILInliner
                                         {
                                             // This is a call or callvirt instruction to a method with aggresive inlining
 
+                                            if (LoadedOptions.Verbose) Console.WriteLine("=> Inlining " + (instruction.OpCode == OpCodes.Call ? "call" : (instruction.OpCode == OpCodes.Callvirt ? "callvirt" : "UNKNOWN")) + " to " + targetMethod.FullName + ".");
+
                                             // Get the next instruction. Every return will be replaced with a branch to this instruction.
                                             Instruction nextInstruction = method.Body.Instructions[x + 1];
 
@@ -138,7 +140,7 @@ namespace CILInliner
                                             // Add variables from target method
                                             for (int i = 0; i < targetMethod.Body.Variables.Count; i++)
                                             {
-                                                if (LoadedOptions.Verbose) Console.WriteLine("Injecting " + targetMethod.Body.Variables[i].VariableType + " variable. (Local Variable)");
+                                                if (LoadedOptions.Verbose) Console.WriteLine("=>     Injecting " + targetMethod.Body.Variables[i].VariableType.FullName + " variable (Local Variable).");
                                                 method.Body.Variables.Add(new VariableDefinition(targetMethod.Body.Variables[i].VariableType));
                                             }
 
@@ -150,14 +152,14 @@ namespace CILInliner
                                             // Add parameters as variables
                                             for (int i = 0; i < targetMethod.Parameters.Count; i++)
                                             {
-                                                if (LoadedOptions.Verbose) Console.WriteLine("Injecting " + targetMethod.Parameters[i].ParameterType + " variable. (Parameter)");
+                                                if (LoadedOptions.Verbose) Console.WriteLine("=>     Injecting " + targetMethod.Parameters[i].ParameterType.FullName + " variable (Parameter).");
                                                 method.Body.Variables.Add(new VariableDefinition(targetMethod.Parameters[i].ParameterType));
                                             }
 
                                             // If the target method is of type instance. Create a variable for its instance and make it the last variable
                                             if (targetMethod.HasThis)
                                             {
-                                                if (LoadedOptions.Verbose) Console.WriteLine("Injecting " + targetMethod.DeclaringType + " variable. (Instance)");
+                                                if (LoadedOptions.Verbose) Console.WriteLine("=>     Injecting " + targetMethod.DeclaringType.FullName + " variable (Instance).");
                                                 method.Body.Variables.Add(new VariableDefinition(targetMethod.DeclaringType));
                                             }
 
@@ -175,7 +177,7 @@ namespace CILInliner
                                                 // The target method doesnt return straight away.
 
                                                 // Remove the call or callvirt instruction
-                                                if (LoadedOptions.Verbose) Console.WriteLine("Removing call/virtcall instruction");
+                                                if (LoadedOptions.Verbose) Console.WriteLine("=>     Removing " + (instruction.OpCode == OpCodes.Call ? "call" : (instruction.OpCode == OpCodes.Callvirt ? "callvirt" : "UNKNOWN")) + " instruction.");
                                                 processor.Remove(instruction);
 
                                                 // Store the previous instruction, used to append instructions after
@@ -186,7 +188,7 @@ namespace CILInliner
                                                 for (int i = targetMethod.Parameters.Count - 1; i >= 0; i--)
                                                 {
                                                     // TODO: Optimize to smaller
-                                                    if (LoadedOptions.Verbose) Console.WriteLine("Injecting Stloc." + (argumentVariableOffset + i) + " (Argument Load)");
+                                                    if (LoadedOptions.Verbose) Console.WriteLine("=>     Injecting Stloc." + (argumentVariableOffset + i) + " (Argument Load).");
 
                                                     Instruction stlocInstruction = processor.Create(OpCodes.Stloc, method.Body.Variables[argumentVariableOffset + i]);
                                                     processor.InsertAfter(previousInstruction, stlocInstruction);
@@ -196,7 +198,7 @@ namespace CILInliner
                                                 if (targetMethod.HasThis)
                                                 {
                                                     // TODO: Optimize smaller
-                                                    if (LoadedOptions.Verbose) Console.WriteLine("Injecting Stloc." + (method.Body.Variables.Count - 1) + " (Type Instance Load)");
+                                                    if (LoadedOptions.Verbose) Console.WriteLine("=>     Injecting Stloc." + (method.Body.Variables.Count - 1) + " (Type Instance Load).");
 
                                                     // Instruction to load the instance variable
                                                     Instruction stlocInstruction = processor.Create(OpCodes.Stloc, method.Body.Variables[method.Body.Variables.Count - 1]);
@@ -277,13 +279,17 @@ namespace CILInliner
                                     {
                                         if (method.Body.CodeSize <= LoadedOptions.MaxMethodSize)
                                         {
-                                            if (LoadedOptions.Verbose) Console.WriteLine("Discovered method for inlining " + method.FullName + ".");
+                                            if (LoadedOptions.Verbose) Console.WriteLine("=> Discovered method for inlining " + method.FullName + ".");
                                             methods.Add(method.FullName, method);
                                         }
                                         else
                                         {
-                                            if (LoadedOptions.Verbose) Console.WriteLine("Skipping method " + method.FullName + ". Method is too large. Size: " + method.Body.CodeSize);
+                                            if (LoadedOptions.Verbose) Console.WriteLine("=> Skipping method " + method.FullName + ". Method is too large. Size=" + method.Body.CodeSize + ".");
                                         }
+                                    }
+                                    else
+                                    {
+                                        if (LoadedOptions.Verbose) Console.WriteLine("=> Skipping method " + method.FullName + ". Method is marked as NoInlining. Size=" + method.Body.CodeSize + ".");
                                     }
                                 }
                             }
