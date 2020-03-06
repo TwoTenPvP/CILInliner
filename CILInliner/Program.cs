@@ -86,8 +86,8 @@ namespace CILInliner
                     {
                         if (LoadedOptions.OverwriteAssemblies)
                         {
-                            if (LoadedOptions.Verbose) Console.WriteLine("Overwriting assembly");
-                            assemblies[i].Write();
+                            if (LoadedOptions.Verbose) Console.WriteLine("Overwriting assembly at " + LoadedOptions.InputFiles.ElementAt(i));
+                            assemblies[i].Write(LoadedOptions.InputFiles.ElementAt(i));
                         }
                         else
                         {
