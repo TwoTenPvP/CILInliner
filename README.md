@@ -246,16 +246,16 @@ Resuling CIL:
     IL_0002: stloc.0
     IL_0003: ldc.i4.0
     IL_0004: stloc.1
-    IL_0005: ldsfld int32 UnityInliner.TestTarget.Program::myX
+    IL_0005: ldsfld int32 CILInliner.TestTarget.Program::myX
     IL_000a: ldstr "127.0.0.1"
     IL_000f: call class [System.Net.Primitives]System.Net.IPAddress [System.Net.Primitives]System.Net.IPAddress::Parse(string)
     IL_0014: stloc 9
     IL_0018: stloc 8
     IL_001c: nop
-    IL_001d: ldsfld int32 UnityInliner.TestTarget.Program::myX
+    IL_001d: ldsfld int32 CILInliner.TestTarget.Program::myX
     IL_0022: ldloc.s 8
     IL_0024: add
-    IL_0025: stsfld int32 UnityInliner.TestTarget.Program::myX
+    IL_0025: stsfld int32 CILInliner.TestTarget.Program::myX
     IL_002a: ldloc.s 9
     IL_002c: callvirt instance string [System.Runtime]System.Object::ToString()
     IL_0031: call void [System.Console]System.Console::WriteLine(string)
