@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Collections.Generic;
@@ -8,7 +7,17 @@ namespace CILInliner
 {
     internal static class OpCodesHelper
     {
-        internal static Instruction ConvertInstruction(Instruction targetInstruction, ILProcessor processor, Instruction lastInstruction, Collection<VariableDefinition> allVars, int varOffset, int parameterVarOffset, bool isInstance)
+        internal static Instruction SmallestStloc(ILProcessor processor, Collection<VariableDefinition> variables, int targetVar)
+        {
+            if (targetVar == 0) return processor.Create(OpCodes.Stloc_0);
+            if (targetVar == 1) return processor.Create(OpCodes.Stloc_1);
+            if (targetVar == 2) return processor.Create(OpCodes.Stloc_2);
+            if (targetVar == 3) return processor.Create(OpCodes.Stloc_3);
+            if (targetVar <= byte.MaxValue) return processor.Create(OpCodes.Stloc_S, variables[targetVar]);
+            return processor.Create(OpCodes.Stloc, variables[targetVar]);
+        }
+
+        internal static Instruction ConvertInstruction(Instruction targetInstruction, ILProcessor processor, Instruction lastInstruction, Collection<VariableDefinition> variables, int varOffset, int parameterVarOffset, bool isInstance)
         {
             // If the opcode is a return
             if (targetInstruction.OpCode == OpCodes.Ret)
@@ -18,7 +27,7 @@ namespace CILInliner
                 return processor.Create(OpCodes.Br, lastInstruction);
             }
 
-            return CreateShortestInstruction(targetInstruction, allVars, varOffset, parameterVarOffset, processor, isInstance);
+            return CreateShortestInstruction(targetInstruction, variables, varOffset, parameterVarOffset, processor, isInstance);
         }
 
 

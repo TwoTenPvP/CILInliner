@@ -187,21 +187,19 @@ namespace CILInliner
                                                 // Pop all the values from the stack into their args. (Arguments are on the stack)
                                                 for (int i = targetMethod.Parameters.Count - 1; i >= 0; i--)
                                                 {
-                                                    // TODO: Optimize to smaller
                                                     if (LoadedOptions.Verbose) Console.WriteLine("=>     Injecting Stloc." + (argumentVariableOffset + i) + " (Argument Load).");
 
-                                                    Instruction stlocInstruction = processor.Create(OpCodes.Stloc, method.Body.Variables[argumentVariableOffset + i]);
+                                                    Instruction stlocInstruction = OpCodesHelper.SmallestStloc(processor, method.Body.Variables, argumentVariableOffset + i);
                                                     processor.InsertAfter(previousInstruction, stlocInstruction);
                                                     previousInstruction = stlocInstruction;
                                                 }
 
                                                 if (targetMethod.HasThis)
                                                 {
-                                                    // TODO: Optimize smaller
                                                     if (LoadedOptions.Verbose) Console.WriteLine("=>     Injecting Stloc." + (method.Body.Variables.Count - 1) + " (Type Instance Load).");
 
                                                     // Instruction to load the instance variable
-                                                    Instruction stlocInstruction = processor.Create(OpCodes.Stloc, method.Body.Variables[method.Body.Variables.Count - 1]);
+                                                    Instruction stlocInstruction = OpCodesHelper.SmallestStloc(processor, method.Body.Variables, method.Body.Variables.Count - 1);
                                                     processor.InsertAfter(previousInstruction, stlocInstruction);
                                                     previousInstruction = stlocInstruction;
                                                 }
