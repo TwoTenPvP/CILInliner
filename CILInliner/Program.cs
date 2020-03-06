@@ -13,16 +13,16 @@ namespace CILInliner
     {
         public class Options
         {
-            [Option('v', "verbose", Required = false, HelpText = "Verbose logging", Default = false)]
+            [Option('v', "verbose", Required = false, HelpText = "Verbose logging.", Default = false)]
             public bool Verbose { get; set; }
 
             [Option('f', "files", Required = true, HelpText = "Input files to be processed.", Min = 1)]
             public IEnumerable<string> InputFiles { get; set; }
 
-            [Option('o', "output", Required = false, HelpText = "The output folder. Will overwrite the assemblies if not specified")]
+            [Option('o', "output", Required = false, HelpText = "The output folder. Will overwrite the assemblies if not specified.")]
             public string OutputFolder { get; set; }
 
-            [Option('s', "size", Required = false, HelpText = "The maximum method size to inline in bytes", Default = 256)]
+            [Option('s', "size", Required = false, HelpText = "The maximum method size to inline in bytes.", Default = 256)]
             public int MaxMethodSize { get; set; }
 
             public bool OverwriteAssemblies { get; set; }
